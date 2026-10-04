@@ -180,61 +180,57 @@
             <option value="dinner">عشاء خفيف</option>
         </select>
 <div class="btn-group">
-    <button class="btn-primary" onclick="getRecipe()">Get Recipe</button>
-    <button class="btn-danger" onclick="resetForm()">Reset</button>
+<div class="btn-group">
+    <button class="btn-primary" onclick="getRecipe()">Get Recipe 🔍</button>
+    <button class="btn-danger" onclick="resetForm()">Reset 🔄</button>
 </div>
-      
-      
-       </div>
-          
-        <div id="recipeResult" class="result-box">
-            <h3>الوصفة المقترحة:</h3>
-            <p id="recipeText"></p>
-        </div>
-    </div>
 
-    <script>
-        function addIngredient(item) {
-            const input = document.getElementById('ingredientsInput');
-            if (input.value.trim() === '') {
-                input.value = item;
-            } else {
-                input.value += '، ' + item;
-            }
-        }
+<div id="recipeResult" class="result-box" style="display: none;">
+    <h3>الوصّفة المقترحة 🍲</h3>
+    <p id="recipeText"></p>
+</div>
+</div>
 
-  function generateRecipe() {
-    const inputField = document.getElementById('ingredientsInput');
-    const recipeBox = document.getElementById('recipeResult');
+<script>
+function addIngredient(item) {
+    const input = document.getElementById('ingredientsInput');
+    if (input.value.trim() === '') {
+        input.value = item;
+    } else {
+        input.value += ', ' + item;
+    }
+}
+
+function getRecipe() {
+    const input = document.getElementById('ingredientsInput');
+    const resultBox = document.getElementById('recipeResult');
     const recipeText = document.getElementById('recipeText');
-    
-    if (!inputField || !inputField.value.trim()) {
-        alert('الرجاء اختيار أو إدخال مكون واحد على الأقل');
+
+    if (!input.value.trim()) {
+        alert('الرجاء اختيار أو كتابة مكون واحد على الأقل !');
         return;
     }
-    
-    const text = inputField.value.toLowerCase();
+
+    const text = input.value.toLowerCase();
     let recipe = '';
-    
+
     if (text.includes('بيض') && text.includes('طماطم')) {
-        recipe = '<b>شكشوكة سريعة:</b><br>1. قطع الطماطم وضعها في مقلاة مع قليل من الزيت حتى تذوب.<br>2. أكسر البيض فوقها وأضف الملح والفلفل الأسود.<br>3. اتركها على نار متوسطة لمدة 5 دقائق حتى تنضج.';
+        recipe = '<b>1. شكشوكة سريعة:</b><br>في مقلاة، سخن القليل من الزيت ثم أضف الطماطم المقطعة حتى تنضج وتصبح واضحة. <br><b>2.</b> اشرس البيض فوقها وأجب غير الملح.<br><b>3.</b> اتركها في الثلاث مع القليل من الوقود حتى تصبح ناضجة.';
     } else if (text.includes('دجاج')) {
-        recipe = '<b>دجاج مشوح:</b><br>1. قطع الدجاج إلى قطع صغيرة وتبلها بالبهارات.<br>2. اقليها في مقلاة مع القليل من الزيت حتى تصبح ذهبية وناضجة.';
+        recipe = '<b>1. دجاج مشوح:</b><br>قطع الدجاج إلى قطع صغيرة وتبلها بالبهارات.<br><b>2.</b> يجب تجهيزها وغسل الحطات الكافية.<br><b>3.</b> يقلى دجاج مقل مقلي حتى النضج.';
     } else {
-        recipe = `<b>وجبة مقترحة (${inputField.value}):</b><br>1. قم بتجهيز وغسل المكونات جيداً.<br>2. في مقلاة مع القليل من الزيت، شوح المكونات على نار متوسطة لمدة 7-10 دقائق حتى تتداخل النكهات، وبالهناء والشفاء!`;
+        recipe = `<b>الوصفة لـ:</b> ${input.value}<br><b>1.</b> قم بتجهيز كافة المكونات واغسلها جيداً.<br><b>2.</b> اطهي المكونات على نار متوسطة لمدة 10-7 دقائق حتى تداخل وتهادء والشفاء.`;
     }
-    
-    if (recipeBox) recipeBox.style.display = 'block';
-    if (recipeText) recipeText.innerHTML = recipe;
-  }
-      
-      
 
-        function resetForm() {
-            document.getElementById('ingredientsInput').value = '';
-            document.getElementById('recipeResult').style.display = 'none';
-        }
-    </script>
+    resultBox.style.display = 'block';
+    recipeText.innerHTML = recipe;
+}
 
+function resetForm() {
+    document.getElementById('ingredientsInput').value = '';
+    document.getElementById('recipeResult').style.display = 'none';
+}
+</script>
+      
 </body>
 </html>
