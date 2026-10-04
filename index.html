@@ -201,19 +201,34 @@
             }
         }
 
-        function getRecipe() {
-            const ingredients = document.getElementById('ingredientsInput').value.trim();
-            const resultBox = document.getElementById('recipeResult');
-            const recipeText = document.getElementById('recipeText');
-
-            if (!ingredients) {
-                alert('الرجاء إدخال أو اختيار مكون واحد على الأقل!');
-                return;
-            }
-
-            resultBox.style.display = 'block';
-            recipeText.innerHTML = `بناءً على مكوناتك (${ingredients})، يمكنك تحضير طبق شهي ولذيذ خلال دقائق معدودة! (قم بخلط المكونات، طهيها على نار متوسطة، وتناولها بالهناء والشفاء).`;
+        function generateRecipe() {
+    // جمع المكونات المحددة أو المكتوبة
+    const selectedIngredients = [];
+    document.querySelectorAll('input[type="checkbox"]:checked').forEach((checkbox) => {
+        selectedIngredients.push(checkbox.value);
+    });
+    
+    // قراءة المكونات النصية إذا وجدت
+    const customInput = document.getElementById('custom-ingredients')?.value || "";
+    
+    const recipeBox = document.getElementById('recipe-result');
+    
+    // فحص المكونات وتقديم وصفة مخصصة
+    let recipeText = "";
+    
+    if (selectedIngredients.includes('بيض') && selectedIngredients.includes('طماطم')) {
+        recipeText = "<b>مقلاية شكشوكة لذيذة:</b><br>1. تقطيع الطماطم إلى مكعبات صغيرة وضعها في مقلاة مع القليل من الزيت حتى تصبح طرية.<br>2. إضافة البيض فوق الطماطم وتحريكه أو ترك عين البيض كاملة حسب الرغبة.<br>3. ركّز الملح والفلفل الأسود، واتركه على نار متوسطة لمدة 5 دقائق حتى ينضج البيض تماماً. بالعافية!";
+    } else if (selectedIngredients.includes('دجاج')) {
+        recipeText = "<b>دجاج مشوح سريع:</b><br>1. تقطيع الدجاج إلى قطع صغيرة وتتبيله بالملح، الفلفل، والبهارات المتوفرة.<br>2. تسخين القليل من الزيت في مقلاة واسعة وقلي الدجاج حتى يتغير رنگه ويصبح ذهبياً.<br>3. تخفيف النار وتغطية المقلاة لمدة 10 دقائق حتى ينضج الدجاج تماماً ويقدم ساخناً.";
+    } else {
+        recipeText = `<b>وجبة ابتكارية سريعة (${selectedIngredients.join(', ') || customInput}):</b><br>1. تحضير وتجهيز المكونات المختارة وغسلها جيداً.<br>2. في مقلاة ساخنة مع القليل من الزيت أو الزبدة، قم بتشويح المكونات الصلبة أولاً ثم إضافة البقية.<br>3. تقليب المكونات على نار متوسطة لمدة 7-10 دقائق حتى تتداخل النكهات، ثم تقدم ساخنة. بالهناء والشفاء!`;
+    }
+    
+    if (recipeBox) {
+        recipeBox.innerHTML = recipeText;
+    }
         }
+      
 
         function resetForm() {
             document.getElementById('ingredientsInput').value = '';
