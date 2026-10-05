@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#081b22">
+  <meta name="description" content="ثلاجتي الذكية: اختر المكونات الموجودة لديك واحصل على وصفة مناسبة، المكونات الناقصة، وقت التحضير وخطوات الطبخ.">
+  <meta name="keywords" content="وصفات, ماذا أطبخ, وصفات سهلة, وصفات سريعة, طبخ, ثلاجة ذكية, وصفات عربية">
+  <meta property="og:title" content="ثلاجتي الذكية | ماذا أطبخ اليوم؟">
+  <meta property="og:description" content="اختر ما لديك في الثلاجة ودع ثلاجتي الذكية تقترح لك وصفة مناسبة.">
+  <meta property="og:type" content="website">
+  <title>ثلاجتي الذكية 🥗 | ماذا أطبخ اليوم؟</title>
+
+  <style>
+    :root{
+      --bg:#07151c;
+      --bg2:#0a2028;
+      --card:rgba(20,39,58,.90);
+      --card2:#102438;
+      --text:#f4f8fb;
+      --muted:#9fb2bf;
+      --primary:#18d39b;
+      --primary2:#0fbf8a;
+      --line:rgba(255,255,255,.10);
+      --danger:#ff6b6b;
+      --warning:#ffd166;
+      --shadow:0 20px 60px rgba(0,0,0,.28);
+      --radius:24px;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;
+      background:
+        radial-gradient(circle at 15% 5%,rgba(24,211,155,.10),transparent 28%),
+        radial-gradient(circle at 90% 20%,rgba(55,130,255,.10),transparent 25%),
+        linear-gradient(145deg,var(--bg),var(--bg2));
+      color:var(--text);
+      min-height:100vh;
+      line-height:1.7;
+    }
+    button,input,textarea,select{font:inherit}
+    button{cursor:pointer}
+    a{color:inherit}
+
+    .container{width:min(1050px,94%);margin:auto}
+
+    header{
+      padding:34px 0 22px;
+      text-align:center;
+    }
+    .logo{
+      width:105px;height:105px;
+      margin:0 auto 18px;
+      border-radius:30px;
+      display:grid;place-items:center;
+      font-size:54px;
+      background:rgba(25,211,155,.08);
+      border:1px solid rgba(25,211,155,.30);
+      box-shadow:0 15px 50px rgba(0,0,0,.22);
+    }
+    h1{
+      font-size:clamp(35px,7vw,60px);
+      line-height:1.15;
+      margin-bottom:12px;
+    }
+    h1 span{color:var(--primary)}
+    .hero-text{
+      color:var(--muted);
+      font-size:clamp(16px,3vw,21px);
+      max-width:760px;
+      margin:auto;
+    }
+    .badge{
+      display:inline-flex;
+      margin-top:20px;
+      padding:8px 18px;
+      border-radius:999px;
+      color:#b8f8e3;
+      background:rgba(24,211,155,.10);
+      border:1px solid rgba(24,211,155,.22);
+    }
+
+    .progress-wrap{
+      height:9px;background:rgba(255,255,255,.08);
+      border-radius:999px;overflow:hidden;margin-bottom:20px
+    }
+    .progress{
+      height:100%;width:25%;
+      background:linear-gradient(90deg,var(--primary),#63f2c5);
+      border-radius:999px;transition:.3s
+    }
+
+    .card{
+      background:linear-gradient(180deg,rgba(19,39,58,.96),rgba(14,31,48,.96));
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      margin-bottom:20px;
+    }
+    .section{padding:28px}
+    .section + .section{border-top:1px solid var(--line)}
+    .section-title{
+      display:flex;justify-content:space-between;align-items:center;
+      gap:15px;margin-bottom:18px
+    }
+    .section-title h2{font-size:22px}
+    .count{color:var(--muted);font-size:14px}
+
+    .ingredients{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:10px;
+    }
+    .ingredient{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.035);
+      color:var(--text);
+      padding:12px 10px;
+      border-radius:18px;
+      transition:.2s;
+    }
+    .ingredient:hover{transform:translateY(-2px);border-color:rgba(24,211,155,.45)}
+    .ingredient.selected{
+      background:rgba(24,211,155,.16);
+      border-color:var(--primary);
+      box-shadow:0 0 0 1px rgba(24,211,155,.12) inset;
+    }
+
+    .custom-row{display:flex;gap:10px;margin-top:18px}
+    .custom-row input{
+      flex:1;min-width:0;
+      background:#071722;
+      color:var(--text);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px 16px;
+      outline:none;
+    }
+    .custom-row input:focus{border-color:var(--primary)}
+    .btn{
+      border:0;border-radius:16px;padding:13px 20px;
+      font-weight:800;transition:.2s
+    }
+    .btn-primary{background:var(--primary);color:#062219}
+    .btn-primary:hover{background:#2de5ae;transform:translateY(-1px)}
+    .btn-secondary{background:#284762;color:white}
+    .btn-ghost{background:rgba(255,255,255,.06);color:var(--text);border:1px solid var(--line)}
+    .btn-danger{background:rgba(255,107,107,.12);color:#ffb0b0;border:1px solid rgba(255,107,107,.25)}
+    .btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+
+    .chips{
+      display:flex;flex-wrap:wrap;gap:10px
+    }
+    .chip{
+      padding:10px 15px;border-radius:999px;
+      background:rgba(255,255,255,.05);
+      border:1px solid var(--line);color:var(--text)
+    }
+    .chip.active{
+      background:rgba(24,211,155,.14);
+      border-color:var(--primary);color:#caffee
+    }
+
+    .actions{
+      display:grid;grid-template-columns:1fr 1fr;gap:12px
+    }
+    .actions .btn{width:100%;font-size:17px}
+
+    .result{display:none}
+    .result.show{display:block}
+    .recipe-head{
+      padding:28px;
+      background:
+        radial-gradient(circle at 10% 20%,rgba(24,211,155,.12),transparent 30%),
+        rgba(255,255,255,.02);
+      border-bottom:1px solid var(--line);
+    }
+    .recipe-name{font-size:30px;margin-bottom:8px}
+    .recipe-desc{color:var(--muted)}
+    .stats{
+      display:grid;grid-template-columns:repeat(4,1fr);
+      gap:10px;margin-top:18px
+    }
+    .stat{
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--line);
+      border-radius:16px;padding:12px;text-align:center
+    }
+    .stat strong{display:block;color:var(--primary);font-size:18px}
+    .stat small{color:var(--muted)}
+
+    .match{
+      margin-top:16px;
+      display:flex;align-items:center;gap:10px;
+      color:#bdf6e4
+    }
+    .matchbar{
+      flex:1;height:8px;background:rgba(255,255,255,.08);
+      border-radius:99px;overflow:hidden
+    }
+    .matchbar i{display:block;height:100%;background:var(--primary);width:0}
+
+    .recipe-grid{
+      display:grid;grid-template-columns:1fr 1.15fr;gap:20px;
+      padding:25px
+    }
+    .subcard{
+      background:rgba(255,255,255,.035);
+      border:1px solid var(--line);
+      border-radius:20px;padding:20px
+    }
+    .subcard h3{margin-bottom:14px}
+    ul,ol{padding-right:20px}
+    li{margin:8px 0}
+    .missing li::marker{color:var(--warning)}
+    .available li::marker{color:var(--primary)}
+
+    .shopping{
+      margin:0 25px 25px;
+      padding:22px;
+      border:1px solid rgba(255,209,102,.18);
+      background:rgba(255,209,102,.045);
+      border-radius:20px;
+    }
+    .shopping h3{margin-bottom:6px}
+    .shopping-note{color:var(--muted);font-size:14px;margin-bottom:14px}
+    .shop-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+    .shop-item{
+      display:flex;justify-content:space-between;align-items:center;
+      gap:10px;padding:12px;
+      background:rgba(0,0,0,.14);
+      border:1px solid var(--line);
+      border-radius:15px;
+    }
+    .shop-item .buy{
+      text-decoration:none;
+      padding:7px 11px;border-radius:10px;
+      background:rgba(24,211,155,.12);
+      color:#aef4df;border:1px solid rgba(24,211,155,.2);
+      white-space:nowrap;font-size:13px
+    }
+    .shop-item .buy.disabled{opacity:.45;pointer-events:none}
+
+    .result-actions{
+      display:flex;flex-wrap:wrap;gap:10px;padding:0 25px 25px
+    }
+
+    .tips{
+      padding:20px 25px;
+      border-top:1px solid var(--line);
+      color:#cfe5ee
+    }
+    .tips strong{color:var(--primary)}
+
+    .favorites-list{
+      display:grid;grid-template-columns:repeat(2,1fr);gap:10px
+    }
+    .fav{
+      padding:14px;border:1px solid var(--line);
+      background:rgba(255,255,255,.035);
+      border-radius:15px;
+      display:flex;justify-content:space-between;gap:10px;align-items:center
+    }
+
+    .faq details{
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px 16px;
+      background:rgba(255,255,255,.025);
+      margin-bottom:10px
+    }
+    .faq summary{cursor:pointer;font-weight:800}
+    .faq p{color:var(--muted);padding-top:10px}
+
+    footer{
+      text-align:center;color:var(--muted);
+      padding:35px 0 50px;font-size:14px
+    }
+
+    .toast{
+      position:fixed;bottom:20px;right:20px;left:20px;
+      max-width:500px;margin:auto;
+      padding:13px 18px;border-radius:14px;
+      background:#0d2730;color:white;
+      border:1px solid rgba(24,211,155,.35);
+      box-shadow:var(--shadow);
+      transform:translateY(130px);opacity:0;
+      transition:.3s;z-index:50;text-align:center
+    }
+    .toast.show{transform:translateY(0);opacity:1}
+
+    @media(max-width:800px){
+      .ingredients{grid-template-columns:repeat(3,1fr)}
+      .recipe-grid{grid-template-columns:1fr}
+      .stats{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(max-width:520px){
+      .container{width:94%}
+      .section{padding:20px}
+      .ingredients{grid-template-columns:repeat(2,1fr)}
+      .custom-row{flex-direction:column}
+      .actions{grid-template-columns:1fr}
+      .shop-list,.favorites-list{grid-template-columns:1fr}
+      .recipe-grid{padding:18px}
+      .shopping{margin:0 18px 18px}
+      .result-actions{padding:0 18px 18px}
+      .recipe-head{padding:22px 18px}
+      .logo{width:88px;height:88px;font-size:45px}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <header>
+      <div class="logo">🥗</div>
+      <h1>ماذا <span>أطبخ</span> اليوم؟</h1>
+      <p class="hero-text">
+        أخبرنا بما لديك في الثلاجة، وسنساعدك على اختيار وجبة مناسبة
+        مع توضيح المكونات الناقصة ووقت التحضير.
+      </p>
+      <div class="badge">✨ مجاني وسهل الاستخدام</div>
+    </header>
+
+    <main>
+      <div class="card">
+        <div class="section">
+          <div class="progress-wrap"><div class="progress" id="progress"></div></div>
+
+          <div class="section-title">
+            <h2>الخطوة 1: اختر المكونات الموجودة لديك</h2>
+            <span class="count" id="ingredientCount">0 مكونات</span>
+          </div>
+
+          <div class="ingredients" id="ingredients"></div>
+
+          <div class="section-title" style="margin-top:25px">
+            <h2>📝 مكونات أخرى</h2>
+            <span class="count">اختياري</span>
+          </div>
+
+          <div class="custom-row">
+            <input id="customInput" type="text" placeholder="مثال: زيت زيتون، ليمون، بهارات">
+            <button class="btn btn-secondary" id="addCustom">إضافة</button>
+          </div>
+          <div class="chips" id="customChips" style="margin-top:12px"></div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">
+            <h2>🎯 ماذا تريد من الوجبة؟</h2>
+          </div>
+
+          <div class="chips" id="preferences">
+            <button class="chip active" data-pref="quick">⚡ سريعة</button>
+            <button class="chip" data-pref="healthy">🥗 صحية</button>
+            <button class="chip" data-pref="protein">💪 عالية البروتين</button>
+            <button class="chip" data-pref="budget">💰 اقتصادية</button>
+            <button class="chip" data-pref="dinner">🌙 عشاء</button>
+            <button class="chip" data-pref="family">👨‍👩‍👧‍👦 عائلية</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="actions">
+            <button class="btn btn-primary" id="cookBtn">🍳 ابتكار وصفة</button>
+            <button class="btn btn-ghost" id="resetBtn">↻ إعادة ضبط</button>
+          </div>
+        </div>
+      </div>
+
+      <section class="card result" id="result">
+        <div class="recipe-head">
+          <div class="recipe-name" id="recipeName"></div>
+          <p class="recipe-desc" id="recipeDesc"></p>
+
+          <div class="stats">
+            <div class="stat"><strong id="time">-</strong><small>الوقت</small></div>
+            <div class="stat"><strong id="difficulty">-</strong><small>الصعوبة</small></div>
+            <div class="stat"><strong id="servings">-</strong><small>حصص</small></div>
+            <div class="stat"><strong id="score">-</strong><small>التطابق</small></div>
+          </div>
+
+          <div class="match">
+            <span>مطابقة المكونات</span>
+            <div class="matchbar"><i id="matchBar"></i></div>
+            <b id="matchText">0%</b>
+          </div>
+        </div>
+
+        <div class="recipe-grid">
+          <div class="subcard">
+            <h3>✅ المكونات الموجودة</h3>
+            <ul class="available" id="availableList"></ul>
+          </div>
+
+          <div class="subcard">
+            <h3>🛒 المكونات الناقصة</h3>
+            <ul class="missing" id="missingList"></ul>
+          </div>
+
+          <div class="subcard">
+            <h3>👨‍🍳 طريقة التحضير</h3>
+            <ol id="steps"></ol>
+          </div>
+
+          <div class="subcard">
+            <h3>💡 نصيحة الشيف</h3>
+            <p id="tip"></p>
+          </div>
+        </div>
+
+        <div class="shopping" id="shoppingBox">
+          <h3>🛍️ المكونات الناقصة — اعثر عليها</h3>
+          <p class="shopping-note">
+            يمكنك لاحقًا وضع روابطك التسويقية هنا. لن تظهر أي روابط وهمية؛
+            أضف روابطك أنت داخل الكود في قسم AFFILIATE_LINKS.
+          </p>
+          <div class="shop-list" id="shopList"></div>
+        </div>
+
+        <div class="result-actions">
+          <button class="btn btn-primary" id="shareBtn">📤 مشاركة الوصفة</button>
+          <button class="btn btn-secondary" id="copyBtn">📋 نسخ الوصفة</button>
+          <button class="btn btn-ghost" id="favoriteBtn">⭐ حفظ الوصفة</button>
+        </div>
+
+        <div class="tips">
+          <strong>⚠️ ملاحظة:</strong>
+          هذه الاقتراحات لأغراض الطبخ العامة. إذا كان لديك حساسية من مكوّن معيّن،
+          تأكد من مكونات الطعام قبل تناوله.
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section">
+          <div class="section-title">
+            <h2>⭐ وصفاتي المحفوظة</h2>
+            <span class="count" id="favCount">0</span>
+          </div>
+          <div id="favorites" class="favorites-list"></div>
+          <p id="noFavorites" style="color:var(--muted)">لم تحفظ أي وصفة بعد.</p>
+        </div>
+      </section>
+
+      <section class="card faq">
+        <div class="section">
+          <div class="section-title">
+            <h2>❓ أسئلة شائعة</h2>
+          </div>
+
+          <details>
+            <summary>كيف تختار ثلاجتي الذكية الوصفة؟</summary>
+            <p>نقارن المكونات التي اخترتها مع مكونات الوصفات الموجودة لدينا، ثم نرتب النتائج حسب نسبة التطابق وتفضيلاتك.</p>
+          </details>
+
+          <details>
+            <summary>هل الموقع مجاني؟</summary>
+            <p>نعم. النسخة الحالية تعمل مباشرة داخل المتصفح ولا تحتاج إلى حساب أو اشتراك أو API مدفوع.</p>
+          </details>
+
+          <details>
+            <summary>هل يمكنني إضافة مكونات غير موجودة في القائمة؟</summary>
+            <p>نعم، اكتب المكوّن في خانة «مكونات أخرى» ثم اضغط إضافة.</p>
+          </details>
+
+          <details>
+            <summary>هل المكونات الناقصة تحتوي على روابط شراء؟</summary>
+            <p>يوجد مكان مخصص لذلك، لكن يجب أن تضع روابطك التسويقية الحقيقية بنفسك. لا تستخدم روابط غير معروفة أو وهمية.</p>
+          </details>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>🥗 ثلاجتي الذكية — وصفة مناسبة من مكوناتك</p>
+      <p>© 2026 جميع الحقوق محفوظة</p>
+    </footer>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+/*
+========================================================
+ثلاجتي الذكية — النسخة المحسنة
+========================================================
+1) المكونات والوصفات تعمل محليًا بدون API.
+2) لإضافة روابطك التسويقية: عدّل AFFILIATE_LINKS أسفل هذا الملف.
+3) اترك الرابط فارغًا إذا لم يكن لديك رابط حقيقي.
+========================================================
+*/
+
+const AFFILIATE_LINKS = {
+  "بيض": "",
+  "دجاج": "",
+  "لحم مفروم": "",
+  "طماطم": "",
+  "بطاطا": "",
+  "بصل": "",
+  "ثوم": "",
+  "جبنة": "",
+  "فطر": "",
+  "فلفل رومي": "",
+  "أرز": "",
+  "معكرونة": "",
+  "زيت زيتون": "",
+  "ليمون": ""
+};
+
+const INGREDIENTS = [
+  ["بيض","🥚"],["دجاج","🍗"],["لحم مفروم","🥩"],["طماطم","🍅"],
+  ["بطاطا","🥔"],["بصل","🧅"],["ثوم","🧄"],["جبنة","🧀"],
+  ["فطر","🍄"],["فلفل رومي","🫑"],["أرز","🍚"],["معكرونة","🍝"]
+];
+
+const RECIPES = [
+  {
+    name:"شكشوكة البيض والطماطم",
+    desc:"وجبة سريعة ومشبعة تعتمد على البيض والطماطم والبصل.",
+    ingredients:["بيض","طماطم","بصل","ثوم"],
+    optional:["فلفل رومي"],
+    time:"15 دقيقة", minutes:15, difficulty:"سهل", servings:"2",
+    prefs:["quick","budget","healthy","dinner"],
+    steps:[
+      "قطّع البصل والطماطم والفلفل إن توفر إلى قطع صغيرة.",
+      "شوّح البصل في مقلاة على نار متوسطة حتى يلين.",
+      "أضف الثوم والطماطم واطبخ حتى تتماسك الصلصة.",
+      "اصنع فراغات صغيرة وضع البيض فيها.",
+      "غطِّ المقلاة حتى ينضج البيض حسب رغبتك ثم قدّمها ساخنة."
+    ],
+    tip:"لا تطهِ البيض أكثر من اللازم إذا كنت تفضله طريًا."
+  },
+  {
+    name:"دجاج بالخضار السريع",
+    desc:"دجاج مع خضار بسيطة، مناسب للغداء أو العشاء.",
+    ingredients:["دجاج","بصل","ثوم","طماطم"],
+    optional:["فلفل رومي","بطاطا"],
+    time:"25 دقيقة", minutes:25, difficulty:"سهل", servings:"3",
+    prefs:["quick","healthy","protein","family","dinner"],
+    steps:[
+      "قطّع الدجاج إلى قطع متوسطة الحجم.",
+      "شوّح البصل ثم أضف الثوم.",
+      "أضف الدجاج وحرّكه حتى يتغير لونه من جميع الجهات.",
+      "أضف الطماطم والفلفل والبطاطا إن توفرت.",
+      "غطِّ المقلاة واتركها حتى ينضج الدجاج تمامًا."
+    ],
+    tip:"تأكد أن الدجاج ناضج تمامًا من الداخل قبل التقديم."
+  },
+  {
+    name:"مكرونة بالدجاج والجبنة",
+    desc:"مكرونة كريمية وبسيطة باستخدام الدجاج والجبنة.",
+    ingredients:["معكرونة","دجاج","جبنة","بصل","ثوم"],
+    optional:["فطر","فلفل رومي"],
+    time:"30 دقيقة", minutes:30, difficulty:"متوسط", servings:"3",
+    prefs:["family","protein","dinner"],
+    steps:[
+      "اسلق المعكرونة حتى تنضج ثم صفِّها.",
+      "قطّع الدجاج وشوّحه مع البصل والثوم.",
+      "أضف الفطر أو الفلفل إذا توفر.",
+      "أضف المعكرونة والجبنة وحرّك بهدوء.",
+      "اتركها دقائق قليلة حتى تذوب الجبنة وتتماسك المكونات."
+    ],
+    tip:"احتفظ بقليل من ماء سلق المعكرونة لإضافة قوام كريمي عند الحاجة."
+  },
+  {
+    name:"أرز بالدجاج والخضار",
+    desc:"طبق عائلي مشبع وسهل التحضير.",
+    ingredients:["أرز","دجاج","بصل","ثوم","طماطم"],
+    optional:["فلفل رومي","بطاطا"],
+    time:"40 دقيقة", minutes:40, difficulty:"متوسط", servings:"4",
+    prefs:["family","protein","budget","dinner"],
+    steps:[
+      "اغسل الأرز وجهزه جانبًا.",
+      "شوّح البصل والثوم ثم أضف قطع الدجاج.",
+      "أضف الطماطم والخضار المتوفرة وقلّبها.",
+      "أضف الأرز والماء المناسب لكمية الأرز.",
+      "غطِّ القدر واتركه على نار هادئة حتى ينضج الأرز والدجاج."
+    ],
+    tip:"اترك الأرز يرتاح 5 دقائق بعد إطفاء النار قبل التقديم."
+  },
+  {
+    name:"بطاطا بالبيض والجبنة",
+    desc:"خيار اقتصادي وسريع بمكونات متوفرة غالبًا في المنزل.",
+    ingredients:["بطاطا","بيض","جبنة","بصل"],
+    optional:["فلفل رومي","طماطم"],
+    time:"25 دقيقة", minutes:25, difficulty:"سهل", servings:"2",
+    prefs:["quick","budget","family"],
+    steps:[
+      "قطّع البطاطا إلى مكعبات صغيرة واطبخها حتى تلين.",
+      "شوّح البصل ثم أضف البطاطا.",
+      "أضف البيض فوق البطاطا وحرّك حسب رغبتك.",
+      "أضف الجبنة في النهاية.",
+      "غطِّ المقلاة لدقائق حتى تذوب الجبنة."
+    ],
+    tip:"تقطيع البطاطا إلى قطع صغيرة يقلل وقت الطهي."
+  },
+  {
+    name:"لحم مفروم بالطماطم",
+    desc:"وصفة عملية يمكن تناولها مع الأرز أو الخبز.",
+    ingredients:["لحم مفروم","طماطم","بصل","ثوم"],
+    optional:["فلفل رومي","بطاطا"],
+    time:"25 دقيقة", minutes:25, difficulty:"سهل", servings:"3",
+    prefs:["protein","budget","dinner","family"],
+    steps:[
+      "شوّح البصل حتى يلين.",
+      "أضف اللحم المفروم وفتته جيدًا أثناء الطهي.",
+      "أضف الثوم والطماطم والفلفل إن توفر.",
+      "اترك الخليط حتى ينضج اللحم وتتقلص الصلصة.",
+      "قدمه مع الأرز أو الخبز."
+    ],
+    tip:"تأكد من نضج اللحم المفروم بالكامل قبل التقديم."
+  },
+  {
+    name:"مكرونة بالطماطم والثوم",
+    desc:"وصفة اقتصادية وسريعة عندما تكون المكونات محدودة.",
+    ingredients:["معكرونة","طماطم","ثوم","بصل"],
+    optional:["جبنة","فلفل رومي"],
+    time:"20 دقيقة", minutes:20, difficulty:"سهل", servings:"2",
+    prefs:["quick","budget","healthy"],
+    steps:[
+      "اسلق المعكرونة ثم صفها.",
+      "شوّح البصل والثوم.",
+      "أضف الطماطم واطبخها حتى تتحول إلى صلصة.",
+      "أضف المعكرونة وحرّكها مع الصلصة.",
+      "أضف الجبنة إن توفرت وقدّمها مباشرة."
+    ],
+    tip:"قليل من ماء سلق المعكرونة يساعد على ربط الصلصة بالمعكرونة."
+  },
+  {
+    name:"أومليت بالخضار والجبنة",
+    desc:"فطور أو عشاء سريع وغني بالبروتين.",
+    ingredients:["بيض","جبنة","بصل","فلفل رومي"],
+    optional:["طماطم","فطر"],
+    time:"12 دقيقة", minutes:12, difficulty:"سهل", servings:"2",
+    prefs:["quick","protein","healthy","dinner"],
+    steps:[
+      "اخفق البيض في وعاء.",
+      "قطّع البصل والفلفل والطماطم أو الفطر إن توفر.",
+      "اطبخ الخضار قليلًا في مقلاة.",
+      "أضف البيض ثم الجبنة.",
+      "اطوِ الأومليت عندما يتماسك وقدمه ساخنًا."
+    ],
+    tip:"استخدم نارًا متوسطة حتى ينضج البيض دون أن يحترق."
+  },
+  {
+    name:"صينية دجاج وبطاطا",
+    desc:"وجبة عائلية بسيطة يمكن تجهيزها في صينية واحدة.",
+    ingredients:["دجاج","بطاطا","بصل","ثوم","طماطم"],
+    optional:["فلفل رومي"],
+    time:"45 دقيقة", minutes:45, difficulty:"متوسط", servings:"4",
+    prefs:["family","protein","dinner","budget"],
+    steps:[
+      "قطّع البطاطا والبصل والطماطم.",
+      "ضع الخضار والدجاج في صينية.",
+      "أضف الثوم والتوابل المتوفرة لديك.",
+      "غطِّ الصينية في بداية الطهي للحفاظ على الرطوبة.",
+      "أكمل الطهي حتى ينضج الدجاج والبطاطا تمامًا."
+    ],
+    tip:"قطّع البطاطا بحجم متقارب حتى تنضج في الوقت نفسه."
+  },
+  {
+    name:"أرز بالخضار والبيض",
+    desc:"طبق سريع واقتصادي للاستفادة من الأرز والمكونات المتوفرة.",
+    ingredients:["أرز","بيض","بصل","فلفل رومي"],
+    optional:["طماطم","ثوم","جبنة"],
+    time:"20 دقيقة", minutes:20, difficulty:"سهل", servings:"2",
+    prefs:["quick","budget","family"],
+    steps:[
+      "حضّر الأرز أو استخدم أرزًا مطبوخًا مسبقًا.",
+      "شوّح البصل والفلفل والثوم إن توفر.",
+      "أضف البيض وحرّكه حتى يبدأ بالنضج.",
+      "أضف الأرز وقلّب المكونات جيدًا.",
+      "أضف الطماطم أو الجبنة حسب المتوفر."
+    ],
+    tip:"الأرز البارد المطبوخ مسبقًا يعطي نتيجة أفضل في هذه الوصفة."
+  }
+];
+
+let selected = new Set();
+let customIngredients = [];
+let selectedPrefs = new Set(["quick"]);
+let currentRecipe = null;
+
+const $ = id => document.getElementById(id);
+
+function normalize(s){
+  return String(s).trim().toLowerCase()
+    .replace(/[أإآ]/g,"ا")
+    .replace(/ة/g,"ه")
+    .replace(/\s+/g," ");
+}
+
+function renderIngredients(){
+  $("ingredients").innerHTML = "";
+  INGREDIENTS.forEach(([name,emoji])=>{
+    const btn = document.createElement("button");
+    btn.className = "ingredient" + (selected.has(name) ? " selected" : "");
+    btn.type = "button";
+    btn.textContent = `${name} ${emoji}`;
+    btn.onclick = ()=>{
+      if(selected.has(name)) selected.delete(name);
+      else selected.add(name);
+      renderIngredients();
+      updateProgress();
+    };
+    $("ingredients").appendChild(btn);
+  });
+  updateProgress();
+}
+
+function renderCustom(){
+  $("customChips").innerHTML = "";
+  customIngredients.forEach((name,i)=>{
+    const chip = document.createElement("button");
+    chip.className = "chip active";
+    chip.type = "button";
+    chip.textContent = `✓ ${name} ×`;
+    chip.onclick = ()=>{
+      customIngredients.splice(i,1);
+      renderCustom();
+      updateProgress();
+    };
+    $("customChips").appendChild(chip);
+  });
+}
+
+function allSelected(){
+  return [...selected, ...customIngredients];
+}
+
+function updateProgress(){
+  const n = allSelected().length;
+  $("ingredientCount").textContent = `${n} مكونات`;
+  const pct = n ? Math.min(55 + n * 4, 100) : 25;
+  $("progress").style.width = pct + "%";
+}
+
+function scoreRecipe(recipe){
+  const chosen = allSelected().map(normalize);
+  const required = recipe.ingredients.map(normalize);
+  const optional = recipe.optional.map(normalize);
+
+  const matchedRequired = required.filter(x=>chosen.includes(x)).length;
+  const matchedOptional = optional.filter(x=>chosen.includes(x)).length;
+
+  // نضمن أن المكونات الأساسية لها وزن أكبر.
+  let score = required.length
+    ? Math.round((matchedRequired / required.length) * 82 + (matchedOptional / Math.max(optional.length,1)) * 18)
+    : 0;
+
+  // مكافأة التفضيلات
+  const prefMatches = recipe.prefs.filter(p=>selectedPrefs.has(p)).length;
+  score += prefMatches * 2;
+
+  return {
+    score: Math.min(100, score),
+    matchedRequired,
+    matchedOptional
+  };
+}
+
+function chooseRecipe(){
+  if(allSelected().length === 0){
+    showToast("اختر مكوّنًا واحدًا على الأقل أولًا.");
+    $("ingredients").scrollIntoView({behavior:"smooth",block:"center"});
+    return;
+  }
+
+  const ranked = RECIPES.map(recipe=>({
+    recipe,
+    ...scoreRecipe(recipe)
+  })).sort((a,b)=>b.score-a.score || a.recipe.minutes-b.recipe.minutes);
+
+  currentRecipe = ranked[0].recipe;
+  renderResult(currentRecipe);
+}
+
+function renderResult(recipe){
+  const chosen = allSelected().map(normalize);
+  const available = recipe.ingredients.filter(i=>chosen.includes(normalize(i)));
+  const missing = recipe.ingredients.filter(i=>!chosen.includes(normalize(i)));
+
+  $("recipeName").textContent = recipe.name;
+  $("recipeDesc").textContent = recipe.desc;
+  $("time").textContent = recipe.time;
+  $("difficulty").textContent = recipe.difficulty;
+  $("servings").textContent = recipe.servings;
+  const info = scoreRecipe(recipe);
+  $("score").textContent = info.score + "%";
+  $("matchText").textContent = info.score + "%";
+  $("matchBar").style.width = info.score + "%";
+
+  $("availableList").innerHTML = "";
+  (available.length ? available : ["لا توجد مكونات أساسية مطابقة"]).forEach(x=>{
+    const li=document.createElement("li");li.textContent=x;$("availableList").appendChild(li);
+  });
+
+  $("missingList").innerHTML = "";
+  (missing.length ? missing : ["ممتاز! لا توجد مكونات أساسية ناقصة."]).forEach(x=>{
+    const li=document.createElement("li");li.textContent=x;$("missingList").appendChild(li);
+  });
+
+  $("steps").innerHTML = "";
+  recipe.steps.forEach(x=>{
+    const li=document.createElement("li");li.textContent=x;$("steps").appendChild(li);
+  });
+
+  $("tip").textContent = recipe.tip;
+  renderShopping(missing);
+
+  $("result").classList.add("show");
+  $("result").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function renderShopping(missing){
+  $("shopList").innerHTML = "";
+  if(!missing.length){
+    const p=document.createElement("p");
+    p.style.color="var(--muted)";
+    p.textContent="لا توجد مكونات أساسية ناقصة 🎉";
+    $("shopList").appendChild(p);
+    return;
+  }
+
+  missing.forEach(name=>{
+    const item=document.createElement("div");
+    item.className="shop-item";
+
+    const span=document.createElement("span");
+    span.textContent="🛒 "+name;
+
+    const a=document.createElement("a");
+    a.className="buy";
+    const link=AFFILIATE_LINKS[name] || "";
+    if(link){
+      a.href=link;
+      a.target="_blank";
+      a.rel="nofollow sponsored noopener";
+      a.textContent="اعثر على المنتج";
+    }else{
+      a.classList.add("disabled");
+      a.href="#";
+      a.textContent="أضف رابطك";
+      a.title="أضف رابطك التسويقي داخل AFFILIATE_LINKS";
+    }
+
+    item.append(span,a);
+    $("shopList").appendChild(item);
+  });
+}
+
+function recipeText(){
+  if(!currentRecipe) return "";
+  const chosen = allSelected().map(normalize);
+  const missing = currentRecipe.ingredients.filter(i=>!chosen.includes(normalize(i)));
+
+  return `🥗 ${currentRecipe.name}
+
+${currentRecipe.desc}
+
+⏱️ الوقت: ${currentRecipe.time}
+📊 التطابق: ${scoreRecipe(currentRecipe).score}%
+👨‍👩‍👧‍👦 الحصص: ${currentRecipe.servings}
+
+المكونات الناقصة:
+${missing.length ? missing.map(x=>"• "+x).join("\n") : "• لا توجد"}
+
+طريقة التحضير:
+${currentRecipe.steps.map((x,i)=>`${i+1}. ${x}`).join("\n")}
+
+💡 نصيحة الشيف:
+${currentRecipe.tip}
+
+ثلاجتي الذكية 🥗`;
+}
+
+async function copyRecipe(){
+  if(!currentRecipe) return;
+  try{
+    await navigator.clipboard.writeText(recipeText());
+    showToast("تم نسخ الوصفة 📋");
+  }catch(e){
+    showToast("تعذر النسخ تلقائيًا، حاول مرة أخرى.");
+  }
+}
+
+async function shareRecipe(){
+  if(!currentRecipe) return;
+  const text=recipeText();
+
+  if(navigator.share){
+    try{
+      await navigator.share({title:currentRecipe.name,text});
+      return;
+    }catch(e){}
+  }
+
+  const wa="https://wa.me/?text="+encodeURIComponent(text);
+  window.open(wa,"_blank","noopener");
+}
+
+function saveFavorite(){
+  if(!currentRecipe) return;
+  const favs=JSON.parse(localStorage.getItem("thalajati_favorites")||"[]");
+  if(!favs.some(x=>x.name===currentRecipe.name)){
+    favs.unshift({name:currentRecipe.name,time:currentRecipe.time});
+    localStorage.setItem("thalajati_favorites",JSON.stringify(favs.slice(0,20)));
+    showToast("تم حفظ الوصفة ⭐");
+  }else{
+    showToast("الوصفة محفوظة مسبقًا ⭐");
+  }
+  renderFavorites();
+}
+
+function renderFavorites(){
+  const favs=JSON.parse(localStorage.getItem("thalajati_favorites")||"[]");
+  $("favCount").textContent=favs.length;
+  $("favorites").innerHTML="";
+  $("noFavorites").style.display=favs.length?"none":"block";
+
+  favs.forEach((fav,index)=>{
+    const row=document.createElement("div");
+    row.className="fav";
+
+    const info=document.createElement("div");
+    info.innerHTML="";
+    const title=document.createElement("strong");
+    title.textContent="⭐ "+fav.name;
+    const time=document.createElement("small");
+    time.style.display="block";
+    time.style.color="var(--muted)";
+    time.textContent="⏱️ "+fav.time;
+    info.append(title,time);
+
+    const del=document.createElement("button");
+    del.className="btn btn-danger";
+    del.textContent="حذف";
+    del.onclick=()=>{
+      favs.splice(index,1);
+      localStorage.setItem("thalajati_favorites",JSON.stringify(favs));
+      renderFavorites();
+    };
+
+    row.append(info,del);
+    $("favorites").appendChild(row);
+  });
+}
+
+function resetAll(){
+  selected.clear();
+  customIngredients=[];
+  selectedPrefs=new Set(["quick"]);
+  currentRecipe=null;
+
+  document.querySelectorAll(".chip[data-pref]").forEach(x=>{
+    x.classList.toggle("active",x.dataset.pref==="quick");
+  });
+
+  $("customInput").value="";
+  $("result").classList.remove("show");
+  renderIngredients();
+  renderCustom();
+  updateProgress();
+  window.scrollTo({top:0,behavior:"smooth"});
+  showToast("تمت إعادة الضبط ↻");
+}
+
+function showToast(msg){
+  const t=$("toast");
+  t.textContent=msg;
+  t.classList.add("show");
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer=setTimeout(()=>t.classList.remove("show"),2500);
+}
+
+$("addCustom").onclick=()=>{
+  const value=$("customInput").value.trim();
+  if(!value) return;
+
+  // السماح بإضافة أكثر من مكوّن مفصول بفاصلة.
+  value.split(/[,،]/).map(x=>x.trim()).filter(Boolean).forEach(name=>{
+    if(!customIngredients.some(x=>normalize(x)===normalize(name))){
+      customIngredients.push(name);
+    }
+  });
+
+  $("customInput").value="";
+  renderCustom();
+  updateProgress();
+};
+
+$("customInput").addEventListener("keydown",e=>{
+  if(e.key==="Enter") $("addCustom").click();
+});
+
+document.querySelectorAll(".chip[data-pref]").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    const p=btn.dataset.pref;
+    if(selectedPrefs.has(p)){
+      if(selectedPrefs.size>1) selectedPrefs.delete(p);
+    }else{
+      selectedPrefs.add(p);
+    }
+    document.querySelectorAll(".chip[data-pref]").forEach(x=>{
+      x.classList.toggle("active",selectedPrefs.has(x.dataset.pref));
+    });
+  });
+});
+
+$("cookBtn").onclick=chooseRecipe;
+$("resetBtn").onclick=resetAll;
+$("copyBtn").onclick=copyRecipe;
+$("shareBtn").onclick=shareRecipe;
+$("favoriteBtn").onclick=saveFavorite;
+
+renderIngredients();
+renderCustom();
+renderFavorites();
+</script>
+</body>
+</html>
