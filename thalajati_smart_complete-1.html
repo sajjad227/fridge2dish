@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="ثلاجتي الذكية تساعدك على معرفة ماذا تطبخ من المكونات الموجودة لديك.">
+<title>ثلاجتي الذكية | ماذا أطبخ اليوم؟</title>
+
+<style>
+:root{
+  --bg:#07111f;
+  --bg2:#0f1d31;
+  --card:rgba(18,32,52,.92);
+  --card2:#13243a;
+  --primary:#19c98b;
+  --primary-dark:#0da976;
+  --text:#f8fafc;
+  --muted:#9fb0c4;
+  --border:rgba(255,255,255,.10);
+  --danger:#ef5350;
+  --warning:#f59e0b;
+  --whatsapp:#25d366;
+  --shadow:0 24px 70px rgba(0,0,0,.35);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+html{scroll-behavior:smooth}
+
+body{
+  min-height:100vh;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 10% 0%,rgba(25,201,139,.12),transparent 30%),
+    radial-gradient(circle at 90% 20%,rgba(59,130,246,.10),transparent 28%),
+    linear-gradient(145deg,var(--bg),var(--bg2));
+  font-family:"Segoe UI",Tahoma,Arial,sans-serif;
+  line-height:1.6;
+}
+
+button,input,select{font:inherit}
+
+button{cursor:pointer}
+
+.page{
+  width:min(100%,760px);
+  margin:auto;
+  padding:18px 14px 40px;
+}
+
+/* Hero */
+.hero{
+  text-align:center;
+  padding:28px 10px 20px;
+}
+
+.logo{
+  width:72px;height:72px;
+  margin:0 auto 12px;
+  display:grid;place-items:center;
+  border-radius:22px;
+  font-size:40px;
+  background:linear-gradient(145deg,#123b38,#10283a);
+  border:1px solid rgba(25,201,139,.25);
+  box-shadow:0 14px 35px rgba(0,0,0,.25);
+}
+
+.hero h1{
+  font-size:clamp(2rem,7vw,3rem);
+  line-height:1.15;
+  margin-bottom:10px;
+}
+
+.hero h1 span{color:var(--primary)}
+
+.hero p{
+  max-width:580px;
+  margin:auto;
+  color:var(--muted);
+  font-size:1rem;
+}
+
+.hero-badge{
+  display:inline-flex;
+  gap:7px;
+  align-items:center;
+  margin-top:16px;
+  padding:7px 12px;
+  border-radius:999px;
+  background:rgba(25,201,139,.10);
+  border:1px solid rgba(25,201,139,.22);
+  color:#b7f7dc;
+  font-size:.85rem;
+}
+
+/* Main card */
+.app-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:26px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+
+.card-head{
+  padding:20px 20px 10px;
+}
+
+.progress{
+  height:6px;
+  background:rgba(255,255,255,.07);
+  border-radius:99px;
+  overflow:hidden;
+  margin-bottom:14px;
+}
+
+.progress span{
+  display:block;
+  width:25%;
+  height:100%;
+  background:var(--primary);
+  border-radius:99px;
+  transition:.25s;
+}
+
+.section{
+  padding:18px 20px;
+  border-top:1px solid var(--border);
+}
+
+.section:first-of-type{border-top:0}
+
+.section-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:11px;
+  font-weight:800;
+  color:#d9fbed;
+}
+
+.section-title small{
+  color:var(--muted);
+  font-weight:400;
+  font-size:.78rem;
+}
+
+/* Ingredients */
+.ingredients{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.ingredient{
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.045);
+  color:#eef6ff;
+  border-radius:999px;
+  padding:9px 12px;
+  transition:.18s;
+  user-select:none;
+}
+
+.ingredient:hover{
+  border-color:rgba(25,201,139,.65);
+  transform:translateY(-1px);
+}
+
+.ingredient.selected{
+  background:var(--primary);
+  border-color:var(--primary);
+  color:#06251a;
+  font-weight:800;
+  box-shadow:0 7px 18px rgba(25,201,139,.18);
+}
+
+.custom-row{
+  display:flex;
+  gap:8px;
+}
+
+.custom-row input{
+  flex:1;
+}
+
+input,select{
+  width:100%;
+  color:var(--text);
+  background:#091626;
+  border:1px solid var(--border);
+  border-radius:13px;
+  outline:none;
+  padding:13px 14px;
+}
+
+input::placeholder{color:#687b91}
+
+input:focus,select:focus{
+  border-color:var(--primary);
+  box-shadow:0 0 0 3px rgba(25,201,139,.09);
+}
+
+.add-btn{
+  min-width:72px;
+  border:0;
+  border-radius:13px;
+  background:#23415b;
+  color:white;
+  font-weight:800;
+}
+
+.custom-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:9px;
+}
+
+.custom-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:5px 9px;
+  border-radius:999px;
+  background:rgba(25,201,139,.10);
+  color:#b7f7dc;
+  font-size:.82rem;
+}
+
+.custom-chip button{
+  width:19px;height:19px;
+  border:0;border-radius:50%;
+  background:rgba(255,255,255,.10);
+  color:white;
+}
+
+/* Preferences */
+.preference-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:9px;
+}
+
+.pref{
+  padding:12px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:rgba(255,255,255,.04);
+  color:#dbe7f3;
+  text-align:right;
+  transition:.18s;
+}
+
+.pref strong{display:block;font-size:.92rem}
+.pref small{color:var(--muted);font-size:.73rem}
+
+.pref.active{
+  border-color:var(--primary);
+  background:rgba(25,201,139,.11);
+  box-shadow:inset 0 0 0 1px rgba(25,201,139,.12);
+}
+
+.actions{
+  display:flex;
+  gap:9px;
+  padding:18px 20px 22px;
+}
+
+.primary,.secondary{
+  border:0;
+  border-radius:14px;
+  padding:15px;
+  font-weight:900;
+}
+
+.primary{
+  flex:2;
+  color:#06251a;
+  background:var(--primary);
+}
+
+.primary:hover{background:var(--primary-dark);color:white}
+
+.secondary{
+  flex:1;
+  color:white;
+  background:#26364b;
+}
+
+.primary:active,.secondary:active,.add-btn:active{transform:scale(.98)}
+
+/* Results */
+.result{
+  display:none;
+  margin-top:18px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:20px;
+  box-shadow:var(--shadow);
+}
+
+.result.show{display:block;animation:appear .25s ease}
+
+@keyframes appear{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:none}
+}
+
+.recipe-top{
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+  justify-content:space-between;
+}
+
+.recipe-title{
+  color:#c9f9e5;
+  font-size:1.45rem;
+  line-height:1.3;
+}
+
+.match{
+  flex:none;
+  padding:6px 9px;
+  border-radius:999px;
+  background:rgba(25,201,139,.10);
+  color:#8ff0c5;
+  font-size:.75rem;
+}
+
+.meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin:13px 0;
+}
+
+.meta span{
+  padding:6px 9px;
+  border-radius:9px;
+  background:rgba(255,255,255,.05);
+  color:#cbd5e1;
+  font-size:.8rem;
+}
+
+.result-box{
+  margin-top:11px;
+  padding:14px;
+  border-radius:15px;
+  background:rgba(255,255,255,.035);
+  border:1px solid rgba(255,255,255,.06);
+}
+
+.result-box h3{
+  font-size:.95rem;
+  margin-bottom:8px;
+  color:#dff9ed;
+}
+
+.have{color:#9af0c8}
+.missing{color:#fecaca}
+
+.missing-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+
+.missing-chip{
+  padding:6px 9px;
+  border-radius:999px;
+  background:rgba(239,83,80,.10);
+  border:1px solid rgba(239,83,80,.18);
+  color:#fecaca;
+  font-size:.82rem;
+}
+
+.no-missing{
+  color:#86efac;
+  font-weight:700;
+}
+
+.steps{
+  color:#dbe5ef;
+}
+
+.steps div{
+  margin-bottom:7px;
+}
+
+.tip{
+  margin-top:11px;
+  padding:12px;
+  border-right:4px solid var(--primary);
+  border-radius:10px;
+  background:rgba(25,201,139,.08);
+  color:#b7f7dc;
+  font-size:.9rem;
+}
+
+.result-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:13px;
+}
+
+.action-btn{
+  border:0;
+  border-radius:12px;
+  padding:12px;
+  color:white;
+  font-weight:800;
+}
+
+.whatsapp{background:var(--whatsapp)}
+.copy{background:#34465c}
+
+.status{
+  min-height:20px;
+  margin-top:8px;
+  color:var(--muted);
+  font-size:.78rem;
+  text-align:center;
+}
+
+.footer{
+  text-align:center;
+  color:#6f8196;
+  font-size:.78rem;
+  padding:20px 0 0;
+}
+
+@media(max-width:520px){
+  .page{padding:8px 9px 30px}
+  .hero{padding-top:20px}
+  .app-card,.result{border-radius:20px}
+  .preference-grid{grid-template-columns:1fr 1fr}
+  .actions,.result-actions{grid-template-columns:1fr;display:grid}
+  .primary,.secondary{width:100%}
+  .custom-row{flex-direction:column}
+  .add-btn{height:46px}
+}
+</style>
+</head>
+
+<body>
+<main class="page">
+
+  <header class="hero">
+    <div class="logo">🥗</div>
+    <h1>ماذا <span>أطبخ</span> اليوم؟</h1>
+    <p>
+      أخبرنا بما لديك في الثلاجة، وسنساعدك على اختيار وجبة مناسبة
+      مع توضيح المكونات الناقصة ووقت التحضير.
+    </p>
+    <div class="hero-badge">✨ مجاني وسهل الاستخدام</div>
+  </header>
+
+  <section class="app-card">
+
+    <div class="card-head">
+      <div class="progress"><span id="progressBar"></span></div>
+      <div style="color:var(--muted);font-size:.82rem">
+        الخطوة 1: اختر المكونات الموجودة لديك
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="section-title">
+        <span>🥕 ماذا لديك؟</span>
+        <small id="selectedCount">0 مكونات</small>
+      </div>
+
+      <div class="ingredients">
+        <button class="ingredient" data-name="بيض">🥚 بيض</button>
+        <button class="ingredient" data-name="دجاج">🍗 دجاج</button>
+        <button class="ingredient" data-name="لحم مفروم">🥩 لحم مفروم</button>
+        <button class="ingredient" data-name="طماطم">🍅 طماطم</button>
+        <button class="ingredient" data-name="بطاطا">🥔 بطاطا</button>
+        <button class="ingredient" data-name="بصل">🧅 بصل</button>
+        <button class="ingredient" data-name="ثوم">🧄 ثوم</button>
+        <button class="ingredient" data-name="جبنة">🧀 جبنة</button>
+        <button class="ingredient" data-name="فطر">🍄 فطر</button>
+        <button class="ingredient" data-name="فلفل رومي">🫑 فلفل رومي</button>
+        <button class="ingredient" data-name="أرز">🍚 أرز</button>
+        <button class="ingredient" data-name="معكرونة">🍝 معكرونة</button>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">
+        <span>✍️ مكونات أخرى</span>
+        <small>اختياري</small>
+      </div>
+
+      <div class="custom-row">
+        <input id="customInput" type="text"
+               placeholder="مثال: زيت زيتون، ليمون، بهارات">
+        <button class="add-btn" id="addCustom">إضافة</button>
+      </div>
+
+      <div class="custom-list" id="customList"></div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">
+        <span>🎯 ماذا تريد من الوجبة؟</span>
+      </div>
+
+      <div class="preference-grid">
+        <button class="pref active" data-type="quick">
+          <strong>⚡ سريعة</strong>
+          <small>أقل من 20 دقيقة</small>
+        </button>
+
+        <button class="pref" data-type="healthy">
+          <strong>🥗 صحية</strong>
+          <small>متوازنة</small>
+        </button>
+
+        <button class="pref" data-type="protein">
+          <strong>💪 بروتين</strong>
+          <small>غنية بالبروتين</small>
+        </button>
+
+        <button class="pref" data-type="budget">
+          <strong>💰 اقتصادية</strong>
+          <small>مكونات بسيطة</small>
+        </button>
+
+        <button class="pref" data-type="dinner">
+          <strong>🌙 عشاء</strong>
+          <small>خفيفة ولذيذة</small>
+        </button>
+
+        <button class="pref" data-type="family">
+          <strong>👨‍👩‍👧 عائلية</strong>
+          <small>لعدة أشخاص</small>
+        </button>
+      </div>
+    </section>
+
+    <div class="actions">
+      <button class="primary" id="generate">🍳 ماذا أطبخ؟</button>
+      <button class="secondary" id="reset">🔄 مسح الكل</button>
+    </div>
+  </section>
+
+  <section class="result" id="result">
+    <div class="recipe-top">
+      <div>
+        <div class="recipe-title" id="recipeTitle"></div>
+        <div class="meta" id="recipeMeta"></div>
+      </div>
+      <div class="match" id="match"></div>
+    </div>
+
+    <div class="result-box">
+      <h3>✅ المكونات الموجودة</h3>
+      <div class="have" id="have"></div>
+    </div>
+
+    <div class="result-box">
+      <h3>🛒 المكونات الناقصة</h3>
+      <div id="missing"></div>
+    </div>
+
+    <div class="result-box">
+      <h3>👨‍🍳 طريقة التحضير</h3>
+      <div class="steps" id="steps"></div>
+    </div>
+
+    <div class="tip" id="tip"></div>
+
+    <div class="result-actions">
+      <button class="action-btn whatsapp" id="share">💬 مشاركة عبر واتساب</button>
+      <button class="action-btn copy" id="copy">📋 نسخ الوصفة</button>
+    </div>
+
+    <div class="status" id="status"></div>
+  </section>
+
+  <div class="footer">
+    ثلاجتي الذكية 🥗 — وصفة مناسبة من مكوناتك
+  </div>
+</main>
+
+<script>
+"use strict";
+
+const recipes = [
+  {
+    name:"🍳 أومليت بالخضار والجبنة",
+    required:["بيض","طماطم","بصل","جبنة"],
+    optional:["فلفل رومي"],
+    types:["quick","healthy","protein","dinner"],
+    time:"15 دقيقة", difficulty:"سهل", servings:"شخصان",
+    steps:[
+      "اخفق البيض مع رشة ملح وفلفل.",
+      "شوّح البصل والطماطم والفلفل لبضع دقائق.",
+      "أضف البيض ثم الجبنة واتركه حتى يتماسك.",
+      "قدّم الأومليت ساخنًا."
+    ],
+    tip:"يمكنك إضافة الزعتر أو الفلفل الأسود لمذاق أقوى."
+  },
+  {
+    name:"🍗 دجاج بالبطاطا",
+    required:["دجاج","بطاطا","بصل","ثوم"],
+    optional:["طماطم","فلفل رومي"],
+    types:["healthy","protein","budget","dinner","family"],
+    time:"30 دقيقة", difficulty:"متوسط", servings:"3 أشخاص",
+    steps:[
+      "قطّع الدجاج والبطاطا إلى قطع متقاربة.",
+      "شوّح البصل والثوم ثم أضف الدجاج.",
+      "أضف البطاطا والبهارات والقليل من الماء.",
+      "غطِّ المقلاة واتركها حتى ينضج الدجاج والبطاطا جيدًا."
+    ],
+    tip:"قطّع البطاطا إلى قطع صغيرة لتقليل وقت الطهي."
+  },
+  {
+    name:"🍝 معكرونة بالدجاج والفطر",
+    required:["معكرونة","دجاج","فطر","بصل"],
+    optional:["جبنة","ثوم"],
+    types:["quick","protein","healthy","family"],
+    time:"25 دقيقة", difficulty:"متوسط", servings:"3 أشخاص",
+    steps:[
+      "اسلق المعكرونة حسب التعليمات.",
+      "شوّح البصل والثوم ثم أضف الدجاج.",
+      "أضف الفطر واطهه حتى ينضج.",
+      "اخلط المعكرونة مع الخليط وأضف الجبنة إن توفرت."
+    ],
+    tip:"احتفظ بقليل من ماء سلق المعكرونة للحصول على قوام أفضل."
+  },
+  {
+    name:"🍚 أرز بالدجاج والخضار",
+    required:["أرز","دجاج","بصل","فلفل رومي"],
+    optional:["طماطم","ثوم"],
+    types:["healthy","protein","budget","family"],
+    time:"35 دقيقة", difficulty:"متوسط", servings:"4 أشخاص",
+    steps:[
+      "شوّح البصل والدجاج حتى يتغير لون الدجاج.",
+      "أضف الفلفل والطماطم والثوم.",
+      "أضف الأرز والماء المناسب لكمية الأرز.",
+      "غطِّ القدر واتركه على نار هادئة حتى ينضج."
+    ],
+    tip:"غسل الأرز قبل الطبخ يساعد على الحصول على حبات أكثر تماسكًا."
+  },
+  {
+    name:"🥩 كفتة اللحم بالبطاطا",
+    required:["لحم مفروم","بطاطا","بصل","ثوم"],
+    optional:["طماطم","فلفل رومي"],
+    types:["protein","budget","dinner","family"],
+    time:"35 دقيقة", difficulty:"متوسط", servings:"3 أشخاص",
+    steps:[
+      "اخلط اللحم مع البصل والثوم والبهارات.",
+      "شكّل اللحم إلى كرات أو أقراص.",
+      "حمّر البطاطا ثم أضف الكفتة.",
+      "أضف القليل من الماء واتركها حتى تنضج جيدًا."
+    ],
+    tip:"سخّن المقلاة جيدًا قبل إضافة الكفتة للمساعدة على الحفاظ على شكلها."
+  },
+  {
+    name:"🥔 بطاطا بالبيض والجبنة",
+    required:["بطاطا","بيض","جبنة","بصل"],
+    optional:["طماطم","فلفل رومي"],
+    types:["quick","budget","dinner"],
+    time:"20 دقيقة", difficulty:"سهل", servings:"شخصان",
+    steps:[
+      "قطّع البطاطا إلى مكعبات صغيرة وحمّرها.",
+      "أضف البصل والطماطم إن توفرت.",
+      "اخفق البيض واسكبه فوق الخليط.",
+      "أضف الجبنة واتركها حتى يكتمل نضج البيض."
+    ],
+    tip:"مناسبة جدًا عندما تكون المكونات المتوفرة محدودة."
+  }
+];
+
+let customIngredients = [];
+let selectedType = "quick";
+let currentText = "";
+
+const ingredientButtons = [...document.querySelectorAll(".ingredient")];
+const prefButtons = [...document.querySelectorAll(".pref")];
+
+ingredientButtons.forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    btn.classList.toggle("selected");
+    updateCount();
+  });
+});
+
+prefButtons.forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    prefButtons.forEach(x=>x.classList.remove("active"));
+    btn.classList.add("active");
+    selectedType = btn.dataset.type;
+  });
+});
+
+document.getElementById("addCustom").addEventListener("click",addCustom);
+document.getElementById("customInput").addEventListener("keydown",e=>{
+  if(e.key==="Enter") addCustom();
+});
+
+function normalize(value){
+  return String(value)
+    .toLowerCase()
+    .replace(/[أإآ]/g,"ا")
+    .replace(/ة/g,"ه")
+    .replace(/ى/g,"ي")
+    .replace(/\s+/g," ")
+    .trim();
+}
+
+function containsIngredient(list,target){
+  const t=normalize(target);
+  return list.some(item=>{
+    const x=normalize(item);
+    return x===t || x.includes(t) || t.includes(x);
+  });
+}
+
+function updateCount(){
+  const count=document.querySelectorAll(".ingredient.selected").length+customIngredients.length;
+  document.getElementById("selectedCount").textContent=count+" مكونات";
+  document.getElementById("progressBar").style.width=count ? "55%" : "25%";
+}
+
+function addCustom(){
+  const input=document.getElementById("customInput");
+  const values=input.value.split(/[،,]/).map(x=>x.trim()).filter(Boolean);
+
+  values.forEach(v=>{
+    if(!customIngredients.some(x=>normalize(x)===normalize(v))){
+      customIngredients.push(v);
+    }
+  });
+
+  input.value="";
+  renderCustom();
+  updateCount();
+}
+
+function renderCustom(){
+  const list=document.getElementById("customList");
+  list.innerHTML="";
+
+  customIngredients.forEach((item,index)=>{
+    const chip=document.createElement("span");
+    chip.className="custom-chip";
+
+    const text=document.createElement("span");
+    text.textContent="✓ "+item;
+
+    const remove=document.createElement("button");
+    remove.type="button";
+    remove.textContent="×";
+    remove.setAttribute("aria-label","حذف "+item);
+    remove.addEventListener("click",()=>{
+      customIngredients.splice(index,1);
+      renderCustom();
+      updateCount();
+    });
+
+    chip.append(text,remove);
+    list.appendChild(chip);
+  });
+}
+
+function getIngredients(){
+  const selected=ingredientButtons
+    .filter(x=>x.classList.contains("selected"))
+    .map(x=>x.dataset.name);
+
+  return [...selected,...customIngredients];
+}
+
+function chooseRecipe(ingredients,type){
+  let best=null;
+  let bestScore=-Infinity;
+
+  recipes.forEach(recipe=>{
+    let score=0;
+    let matched=0;
+
+    recipe.required.forEach(item=>{
+      if(containsIngredient(ingredients,item)){
+        score+=5;
+        matched++;
+      }
+    });
+
+    recipe.optional.forEach(item=>{
+      if(containsIngredient(ingredients,item)) score+=1;
+    });
+
+    if(recipe.types.includes(type)) score+=4;
+
+    // لا نعرض وصفة لا يملك المستخدم أي مكوّن أساسي منها
+    if(matched===0) score-=3;
+
+    if(score>bestScore){
+      bestScore=score;
+      best={recipe,matched};
+    }
+  });
+
+  return best;
+}
+
+function generate(){
+  const ingredients=getIngredients();
+
+  if(!ingredients.length){
+    alert("اختر مكونًا واحدًا على الأقل من الثلاجة أو اكتب مكوناتك.");
+    return;
+  }
+
+  const choice=chooseRecipe(ingredients,selectedType);
+  const recipe=choice.recipe;
+
+  const missing=recipe.required.filter(x=>!containsIngredient(ingredients,x));
+  const percent=Math.round((choice.matched/recipe.required.length)*100);
+
+  document.getElementById("recipeTitle").textContent=recipe.name;
+  document.getElementById("match").textContent=percent+"% من المكونات متوفرة";
+
+  document.getElementById("recipeMeta").innerHTML="";
+  [
+    "⏱️ "+recipe.time,
+    "📊 "+recipe.difficulty,
+    "👨‍👩‍👧 "+recipe.servings
+  ].forEach(text=>{
+    const s=document.createElement("span");
+    s.textContent=text;
+    document.getElementById("recipeMeta").appendChild(s);
+  });
+
+  document.getElementById("have").textContent=ingredients.join("، ");
+
+  const missingBox=document.getElementById("missing");
+  missingBox.innerHTML="";
+
+  if(missing.length===0){
+    const ok=document.createElement("div");
+    ok.className="no-missing";
+    ok.textContent="🎉 ممتاز! لديك كل المكونات الأساسية.";
+    missingBox.appendChild(ok);
+  }else{
+    const wrap=document.createElement("div");
+    wrap.className="missing-list";
+
+    missing.forEach(item=>{
+      const chip=document.createElement("span");
+      chip.className="missing-chip";
+      chip.textContent="🛒 "+item;
+      wrap.appendChild(chip);
+    });
+
+    missingBox.appendChild(wrap);
+  }
+
+  const steps=document.getElementById("steps");
+  steps.innerHTML="";
+  recipe.steps.forEach((step,i)=>{
+    const div=document.createElement("div");
+    div.textContent=(i+1)+". "+step;
+    steps.appendChild(div);
+  });
+
+  document.getElementById("tip").textContent="💡 نصيحة الشيف: "+recipe.tip;
+
+  currentText=
+`🥗 ثلاجتي الذكية
+
+${recipe.name}
+⏱️ ${recipe.time}
+📊 ${recipe.difficulty}
+👨‍👩‍👧 ${recipe.servings}
+
+✅ المكونات الموجودة:
+${ingredients.join("، ")}
+
+🛒 المكونات الناقصة:
+${missing.length?missing.join("، "):"لا توجد مكونات أساسية ناقصة"}
+
+👨‍🍳 طريقة التحضير:
+${recipe.steps.map((s,i)=>(i+1)+". "+s).join("\n")}
+
+💡 نصيحة الشيف:
+${recipe.tip}`;
+
+  const result=document.getElementById("result");
+  result.classList.add("show");
+  document.getElementById("progressBar").style.width="100%";
+  result.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+document.getElementById("generate").addEventListener("click",generate);
+
+document.getElementById("reset").addEventListener("click",()=>{
+  ingredientButtons.forEach(x=>x.classList.remove("selected"));
+  customIngredients=[];
+  renderCustom();
+  document.getElementById("customInput").value="";
+  prefButtons.forEach(x=>x.classList.remove("active"));
+  document.querySelector('.pref[data-type="quick"]').classList.add("active");
+  selectedType="quick";
+  document.getElementById("result").classList.remove("show");
+  document.getElementById("status").textContent="";
+  currentText="";
+  updateCount();
+  window.scrollTo({top:0,behavior:"smooth"});
+});
+
+document.getElementById("share").addEventListener("click",()=>{
+  if(!currentText)return;
+  window.open(
+    "https://api.whatsapp.com/send?text="+encodeURIComponent(currentText),
+    "_blank"
+  );
+});
+
+document.getElementById("copy").addEventListener("click",async()=>{
+  if(!currentText)return;
+
+  try{
+    await navigator.clipboard.writeText(currentText);
+    document.getElementById("status").textContent="تم نسخ الوصفة بنجاح ✅";
+  }catch{
+    document.getElementById("status").textContent="تعذر النسخ التلقائي. استخدم مشاركة واتساب.";
+  }
+});
+
+updateCount();
+</script>
+</body>
+</html>
