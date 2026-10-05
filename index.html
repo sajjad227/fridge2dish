@@ -10,6 +10,8 @@
             --card-bg: rgba(30, 41, 59, 0.9);
             --primary: #10b981;
             --primary-hover: #059669;
+            --whatsapp: #25d366;
+            --whatsapp-hover: #1ebe5d;
             --danger: #ef4444;
             --danger-hover: #dc2626;
             --text-main: #f8fafc;
@@ -136,6 +138,7 @@
         .btn-group {
             display: flex;
             gap: 12px;
+            margin-bottom: 15px;
         }
 
         button {
@@ -171,10 +174,22 @@
             background: var(--danger-hover);
         }
 
+        .btn-whatsapp {
+            background: var(--whatsapp);
+            color: #fff;
+            width: 100%;
+            margin-top: 12px;
+            display: none;
+        }
+
+        .btn-whatsapp:hover {
+            background: var(--whatsapp-hover);
+        }
+
         .result-box {
             margin-top: 25px;
-            padding: 15px;
-            background: rgba(15, 23, 42, 0.5);
+            padding: 18px;
+            background: rgba(15, 23, 42, 0.6);
             border-radius: 12px;
             border: 1px solid var(--border-color);
             display: none;
@@ -182,14 +197,24 @@
 
         .result-box h3 {
             color: var(--primary);
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-size: 1.1rem;
         }
 
         .result-box p {
             color: var(--text-muted);
-            font-size: 0.9rem;
-            line-height: 1.5;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .chef-tip {
+            margin-top: 12px;
+            padding: 10px;
+            background: rgba(16, 185, 129, 0.1);
+            border-right: 4px solid var(--primary);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: #34d399;
         }
     </style>
 </head>
@@ -233,10 +258,14 @@
         <div class="result-box" id="resultBox">
             <h3 id="resultTitle">عنوان الوصفة</h3>
             <p id="resultText">تفاصيل ومكونات الوصفة ستظهر هنا...</p>
+            <div class="chef-tip" id="chefTip">💡 نصيحة الشيف: ...</div>
+            <button class="btn-whatsapp" id="whatsappBtn" onclick="shareOnWhatsApp()">💬 مشاركة الوصفة عبر واتساب</button>
         </div>
     </div>
 
     <script>
+        let currentRecipeText = "";
+
         function toggleTag(element) {
             element.classList.toggle('selected');
         }
@@ -248,6 +277,8 @@
             const resultBox = document.getElementById('resultBox');
             const resultTitle = document.getElementById('resultTitle');
             const resultText = document.getElementById('resultText');
+            const chefTip = document.getElementById('chefTip');
+            const whatsappBtn = document.getElementById('whatsappBtn');
 
             if (selectedTags.length === 0 && !customInput) {
                 alert('الرجاء اختيار مكون واحد على الأقل أو كتابة مكوناتك!');
@@ -259,14 +290,31 @@
                 allIngredients.push(customInput);
             }
 
-            // محاكاة اقتراح وصفة ذكية بناءً على المعطيات
+            const tips = [
+                "💡 نصيحة الشيف: إضافة رشة من زيت الزيتون في النهاية تمنح الأطباق نعومة ونكهة خيالية.",
+                "💡 نصيحة الشيف: تأكد من تسخين المقلاة جيداً قبل البدء للحصول على طهي مثالي وسريع.",
+                "💡 نصيحة الشيف: البهارات الطازجة المطحونة حديثاً تصنع فرقاً هائلاً في طعم وجبتك.",
+                "💡 نصيحة الشيف: اترك الوجبة ترتاح لمدة دقيقتين قبل التقديم لتتداخل النكهات تماماً."
+            ];
+            const randomTip = tips[Math.floor(Math.random() * tips.length)];
+
+            currentRecipeText = `وجبة مقترحة من ثلاجتي الذكية 🥗:\nالمكونات: ${allIngredients.join('، ')}\nالنوع: ${mealType}\nجرب تحضيرها الآن عبر موقعنا!`;
+
             resultBox.style.display = 'block';
-            resultTitle.textContent = `✨ وجبة مقترحة بناءً على اختيارك (${mealType === 'quick' ? 'سريعة وخفيفة' : 'مميزة'})`;
+            resultTitle.textContent = `✨ وجبة مقترحة خصيصاً لك`;
             resultText.innerHTML = `<strong>المكونات المستخدمة:</strong> ${allIngredients.join('، ')}<br><br>` +
-                                   `<strong>طريقة التحضير الذكية:</strong><br>` +
-                                   `1. قم بتحضير وتجهيز المكونات المذكورة وتطبيخها بطريقة متناسقة.<br>` +
-                                   `2. أضف البهارات والملح حسب الرغبة مع القليل من زيت الزيتون.<br>` +
-                                   `3. اتركها على نار متوسطة لمدة 10-15 دقيقة حتى تصبح جاهزة للتقديم. بالعافية!`;
+                                   `<strong>طريقة التحضير:</strong><br>` +
+                                   `1. اخلط المكونات ونظّفها جيداً بالماء الفاتر.<br>` +
+                                   `2. قم بطهيها على نار متوسطة مع إضافة البهارات والملح حسب الرغبة.<br>` +
+                                   `3. استمتع بوجبتك الشهية والصحية بالعافية!`;
+            
+            chefTip.textContent = randomTip;
+            whatsappBtn.style.display = 'block';
+        }
+
+        function shareOnWhatsApp() {
+            const encodedText = encodeURIComponent(currentRecipeText);
+            window.open(`https://api.whatsapp.com/send?text=${encodedText}`, '_blank');
         }
 
         function resetForm() {
@@ -274,7 +322,9 @@
             document.getElementById('customIngredients').value = '';
             document.getElementById('mealType').selectedIndex = 0;
             document.getElementById('resultBox').style.display = 'none';
+            document.getElementById('whatsappBtn').style.display = 'none';
         }
     </script>
 </body>
-</html>
+    </html>
+    
