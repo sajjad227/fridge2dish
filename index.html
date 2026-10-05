@@ -1,254 +1,280 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head><!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-2ZXRKR3QMY"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-1YXTY0X985');
-</script>
-    
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ثلاجتي الذكية</title>
-    <style>    <!-- وسوم تحسين محركات البحث SEO -->
-    <title>ثلاجتي الذكية - ابتكر وصفات طبخ لذيذة بالمكونات المتوفرة لديك</title>
-    <meta name="description" content="أدخل المكونات الموجودة في ثلاجتك واحصل فوراً على أفكار ووصفات طبخ سريعة ولذيذة تناسب وجبتك المفضلة بطريقة ذكية وسهلة." />
-    <meta name="keywords" content="ثلاجتي الذكية, وصفات طبخ, طبخ بالمكونات المتوفرة, أكلات سريعة, وجبات خفيفة" />
-    <meta property="og:title" content="ثلاجتي الذكية - ابحث عن وصفات طبخ بالمكونات المتوفرة" />
-    <meta property="og:description" content="لا أعرف ماذا تطبخ اليوم؟ أدخل مكونات ثلاجتك ودعنا نقترح عليك أشهى الوصفات فوراً!" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://sajjad227.github.io/fridge2dish" />
-      <meta name="google-site-verification" content="MIZiA6QEc8918PqRozo0j3MuV08..." />
-      
-      
-      :root {
-            --primary: #1e3d2f;
-            --secondary: #2b5340;
-            --accent: #438a5e;
-            --bg: #f4f7f5;
-            --card-bg: #ffffff;
-            --text: #2c3e50;
-            --border: #d1d8d3;
+    <title>ثلاجتي الذكية - ابتكر وصفاتك</title>
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f172a, #1e293b);
+            --card-bg: rgba(30, 41, 59, 0.9);
+            --primary: #10b981;
+            --primary-hover: #059669;
+            --danger: #ef4444;
+            --danger-hover: #dc2626;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.1);
         }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
         body {
-            background-color: var(--bg);
-            color: var(--text);
-            padding: 20px;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            padding: 20px;
         }
+
         .container {
             background: var(--card-bg);
-            max-width: 600px;
-            width: 100%;
-            padding: 30px;
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            padding: 25px;
+            width: 100%;
+            max-width: 550px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
         }
-        h1 {
+
+        .header {
             text-align: center;
-            color: var(--primary);
             margin-bottom: 25px;
-            font-size: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
         }
-        label {
-            display: block;
-            margin-bottom: 10px;
+
+        .header h1 {
+            font-size: 1.8rem;
+            color: var(--text-main);
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .section-title {
+            font-size: 1rem;
+            color: var(--primary);
+            margin: 15px 0 10px 0;
             font-weight: 600;
-            color: var(--secondary);
         }
-        .quick-ingredients {
+
+        .ingredients-grid {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
             margin-bottom: 15px;
         }
+
         .tag {
-            background: #e2ede5;
-            color: var(--primary);
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            padding: 8px 14px;
+            border-radius: 25px;
             cursor: pointer;
-            transition: all 0.2s;
-            border: 1px solid var(--border);
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            user-select: none;
         }
+
         .tag:hover {
-            background: var(--accent);
-            color: white;
+            background: rgba(16, 185, 129, 0.1);
+            border-color: var(--primary);
         }
-        textarea {
+
+        .tag.selected {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        input[type="text"] {
             width: 100%;
-            height: 100px;
-            padding: 15px;
-            border: 2px solid var(--border);
+            padding: 12px 15px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-color);
             border-radius: 12px;
-            font-size: 16px;
-            resize: none;
+            color: var(--text-main);
+            font-size: 0.95rem;
             margin-bottom: 20px;
             outline: none;
             transition: border-color 0.2s;
         }
-        textarea:focus {
-            border-color: var(--accent);
+
+        input[type="text"]:focus {
+            border-color: var(--primary);
         }
+
         select {
             width: 100%;
-            padding: 12px;
-            border: 2px solid var(--border);
+            padding: 12px 15px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-color);
             border-radius: 12px;
-            font-size: 15px;
-            margin-bottom: 20px;
-            background: white;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            margin-bottom: 25px;
             outline: none;
+            cursor: pointer;
         }
+
+        select option {
+            background: #1e293b;
+            color: var(--text-main);
+        }
+
         .btn-group {
             display: flex;
-            flex-direction: column;
             gap: 12px;
         }
+
         button {
-            width: 100%;
+            flex: 1;
             padding: 14px;
             border: none;
             border-radius: 12px;
-            font-size: 16px;
-            font-weight: bold;
+            font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: opacity 0.2s;
+            transition: transform 0.1s, background 0.2s;
         }
-        button:hover {
-            opacity: 0.9;
+
+        button:active {
+            transform: scale(0.98);
         }
+
         .btn-primary {
-            background-color: #27ae60;
-            color: white;
+            background: var(--primary);
+            color: #fff;
         }
-        .btn-danger {
-            background-color: #e74c3c;
-            color: white;
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
         }
+
+        .btn-reset {
+            background: var(--danger);
+            color: #fff;
+        }
+
+        .btn-reset:hover {
+            background: var(--danger-hover);
+        }
+
         .result-box {
             margin-top: 25px;
-            padding: 20px;
-            background: #f9fbfa;
+            padding: 15px;
+            background: rgba(15, 23, 42, 0.5);
             border-radius: 12px;
-            border: 1px solid var(--border);
+            border: 1px solid var(--border-color);
             display: none;
         }
+
         .result-box h3 {
             color: var(--primary);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .result-box p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>🥗 ثلاجتي الذكية</h1>
-        
-        <label>اختر أو اكتب المكونات المتوفرة لديك:</label>
-        <div class="quick-ingredients">
-            <span class="tag" onclick="addIngredient('طماطم')">🍅 طماطم</span>
-            <span class="tag" onclick="addIngredient('جبنة')">🧀 جبنة</span>
-            <span class="tag" onclick="addIngredient('بيض')">🥚 بيض</span>
-            <span class="tag" onclick="addIngredient('دجاج')">🍗 دجاج</span>
-            <span class="tag" onclick="addIngredient('بطاطس')">🥔 بطاطس</span>
+        <div class="header">
+            <h1>ثلاجتي الذكية 🥗</h1>
+            <p>اختر مكوناتك المتاحة، ودع الذكاء يقترح عليك أشهى الوصفات!</p>
         </div>
 
-        <textarea id="ingredientsInput" placeholder="مثال: طماطم، جبنة، بيض . . ."></textarea>
+        <div class="section-title">اختر المكونات السريعة:</div>
+        <div class="ingredients-grid" id="tagsContainer">
+            <div class="tag" onclick="toggleTag(this)">🍅 طماطم</div>
+            <div class="tag" onclick="toggleTag(this)">🧀 جبنة</div>
+            <div class="tag" onclick="toggleTag(this)">🥚 بيض</div>
+            <div class="tag" onclick="toggleTag(this)">🍗 دجاج</div>
+            <div class="tag" onclick="toggleTag(this)">🥔 بطاطس</div>
+            <div class="tag" onclick="toggleTag(this)">🍄 فطر</div>
+            <div class="tag" onclick="toggleTag(this)">🧄 ثوم وبصل</div>
+            <div class="tag" onclick="toggleTag(this)">🥩 لحم مفروم</div>
+            <div class="tag" onclick="toggleTag(this)">🫑 فلفل رومي</div>
+        </div>
 
-        <label>نوع الوجبة:</label>
+        <div class="section-title">أو اكتب مكونات إضافية:</div>
+        <input type="text" id="customIngredients" placeholder="مثال: فلفل، زيت زيتون، بهارات...">
+
+        <div class="section-title">نوع الوجبة المطلوبة:</div>
         <select id="mealType">
             <option value="quick">وجبة سريعة وخفيفة</option>
-            <option value="lunch">غداء متكامل</option>
-            <option value="dinner">عشاء خفيف</option>
+            <option value="healthy">غداء صحي ومتوازن</option>
+            <option value="protein">غنية بالبروتين (عضلات)</option>
+            <option value="dinner">عشاء خفيف ولذيذ</option>
         </select>
-<div class="btn-group">
-<div class="btn-group">
-    <button class="btn-primary" onclick="getRecipe()">Get Recipe 🔍</button>
-    <button class="btn-danger" onclick="resetForm()">Reset 🔄</button>
-</div>
 
-<div id="recipeResult" class="result-box" style="display: none;">
-    <h3>الوصّفة المقترحة 🍲</h3>
-    <p id="recipeText"></p>
-</div>
-</div>
+        <div class="btn-group">
+            <button class="btn-primary" onclick="generateRecipe()">🔍 ابتكار وصفة</button>
+            <button class="btn-reset" onclick="resetForm()">🔄 إعادة ضبط</button>
+        </div>
 
-<script>
-<script>
-<script>
-<script>
-function addIngredient(item) {
-    const input = document.getElementById('ingredientsInput');
-    if (input.value.trim() === '') {
-        input.value = item;
-    } else {
-        input.value += ', ' + item;
-    }
-}
+        <div class="result-box" id="resultBox">
+            <h3 id="resultTitle">عنوان الوصفة</h3>
+            <p id="resultText">تفاصيل ومكونات الوصفة ستظهر هنا...</p>
+        </div>
+    </div>
 
-function getRecipe() {
-    const input = document.getElementById('ingredientsInput');
-    const resultBox = document.getElementById('recipeResult');
-    const recipeText = document.getElementById('recipeText');
+    <script>
+        function toggleTag(element) {
+            element.classList.toggle('selected');
+        }
 
-    if (!input.value.trim()) {
-        alert('الرجاء اختيار أو كتابة مكون واحد على الأقل !');
-        return;
-    }
+        function generateRecipe() {
+            const selectedTags = Array.from(document.querySelectorAll('.tag.selected')).map(tag => tag.textContent.trim());
+            const customInput = document.getElementById('customIngredients').value;
+            const mealType = document.getElementById('mealType').value;
+            const resultBox = document.getElementById('resultBox');
+            const resultTitle = document.getElementById('resultTitle');
+            const resultText = document.getElementById('resultText');
 
-    const text = input.value.toLowerCase();
-    let recipe = '';
+            if (selectedTags.length === 0 && !customInput) {
+                alert('الرجاء اختيار مكون واحد على الأقل أو كتابة مكوناتك!');
+                return;
+            }
 
-    if (text.includes('بيض') && text.includes('طماطم')) {
-        recipe = '<b>🍳 شكشوكة منزلية متكاملة:</b><br>' +
-                 '<b>• المقادير:</b> 2 حبة بيض، 2 حبة طماطم مقطعة، 2 ملعقة كبيرة زيت زيتون (أو نباتي)، نصف ملعقة صغيرة ملح، رشة فلفل أسود، ورشة كمون.<br><br>' +
-                 '<b>• طريقة التحضير:</b><br>' +
-                 '1. سخن ملعقتي الزيت في مقلاة على نار متوسطة.<br>' +
-                 '2. أضف الطماطم المقطعة وقلبها لمدة 5 دقائق حتى تصبح طرية وتتسبك.<br>' +
-                 '3. أكسر البيض فوق الطماطم، ثم أضف الملح، الفلفل الأسود، والكمون.<br>' +
-                 '4. غطِ المقلاة واتركها على نار هادئة لمدة 3 إلى 5 دقائق حتى ينضج البيض حسب القوام المفضل لديك، ثم قدمها ساخنة!';
-    } else if (text.includes('دجاج')) {
-        recipe = '<b>🍗 طبق الدجاج المشوح بالتوابل:</b><br>' +
-                 '<b>• المقادير:</b> صدور دجاج مقطعة، 3 ملاعق زيت، ملعقة صغيرة ملح، نصف ملعقة كاري أو بهارات دجاج، رشة فلفل أسود، وفص ثوم مفروم.<br><br>' +
-                 '<b>• طريقة التحضير:</b><br>' +
-                 '1. اغسل قطع الدجاج جيداً بالماء والخل ثم صفها وقطعتها إلى مكعبات متوسطة.<br>' +
-                 '2. في مقلاة ساخنة، أضف الزيت والثوم المفروم حتى يذبل.<br>' +
-                 '3. أضف قطع الدجاج، التوابل، البهارات، والملح، وقلب جيداً.<br>' +
-                 '4. اطهِ المكونات على نار متوسطة لمدة 10 إلى 12 دقيقة حتى تنضج تماماً وتتحمر بشكل شهي.';
-    } else {
-        recipe = `<b>🍲 الوصفة المقترحة لـ:</b> ${input.value}<br>` +
-                 '<b>• المقادير الأساسية:</b> المكونات المختارة، 2 ملعقة زيت، نصف ملعقة ملح، ورشة بهارات مشكلة.<br><br>' +
-                 '<b>• طريقة التحضير:</b><br>' +
-                 '1. قم بتجهيز وغسل جميع المكونات المختارة جيداً وتقطيعها بأحجام متناسقة.<br>' +
-                 '2. سخن الزيت في قدر أو مقلاة على نار متوسطة.<br>' +
-                 '3. أضف المكونات مع الملح والبهارات وقلبها باستمرار لمدة 7 إلى 10 دقائق حتى تنضج وتتجانس النكهات تماماً.';
-    }
+            let allIngredients = [...selectedTags];
+            if (customInput) {
+                allIngredients.push(customInput);
+            }
 
-    resultBox.style.display = 'block';
-    recipeText.innerHTML = recipe;
-}
+            // محاكاة اقتراح وصفة ذكية بناءً على المعطيات
+            resultBox.style.display = 'block';
+            resultTitle.textContent = `✨ وجبة مقترحة بناءً على اختيارك (${mealType === 'quick' ? 'سريعة وخفيفة' : 'مميزة'})`;
+            resultText.innerHTML = `<strong>المكونات المستخدمة:</strong> ${allIngredients.join('، ')}<br><br>` +
+                                   `<strong>طريقة التحضير الذكية:</strong><br>` +
+                                   `1. قم بتحضير وتجهيز المكونات المذكورة وتطبيخها بطريقة متناسقة.<br>` +
+                                   `2. أضف البهارات والملح حسب الرغبة مع القليل من زيت الزيتون.<br>` +
+                                   `3. اتركها على نار متوسطة لمدة 10-15 دقيقة حتى تصبح جاهزة للتقديم. بالعافية!`;
+        }
 
-function resetForm() {
-    document.getElementById('ingredientsInput').value = '';
-    document.getElementById('recipeResult').style.display = 'none';
-}
-</script>
-      
+        function resetForm() {
+            document.querySelectorAll('.tag').forEach(tag => tag.classList.remove('selected'));
+            document.getElementById('customIngredients').value = '';
+            document.getElementById('mealType').selectedIndex = 0;
+            document.getElementById('resultBox').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
